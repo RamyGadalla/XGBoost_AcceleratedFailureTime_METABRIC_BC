@@ -1,0 +1,84 @@
+Column,Category,Encoded Value
+Type of Breast Surgery,Breast Conserving,0
+Type of Breast Surgery,Mastectomy,1
+Cancer Type,Breast Cancer,0
+Cancer Type,Breast Sarcoma,1
+Cancer Type Detailed,Breast,0
+Cancer Type Detailed,Breast Angiosarcoma,1
+Cancer Type Detailed,Breast Invasive Ductal Carcinoma,2
+Cancer Type Detailed,Breast Invasive Lobular Carcinoma,3
+Cancer Type Detailed,Breast Invasive Mixed Mucinous Carcinoma,4
+Cancer Type Detailed,Breast Mixed Ductal and Lobular Carcinoma,5
+Cancer Type Detailed,Invasive Breast Carcinoma,6
+Cancer Type Detailed,Metaplastic Breast Cancer,7
+Cellularity,High,0
+Cellularity,Low,1
+Cellularity,Moderate,2
+Chemotherapy,No,0
+Chemotherapy,Yes,1
+Pam50 + Claudin-low subtype,Basal,0
+Pam50 + Claudin-low subtype,Her2,1
+Pam50 + Claudin-low subtype,LumA,2
+Pam50 + Claudin-low subtype,LumB,3
+Pam50 + Claudin-low subtype,NC,4
+Pam50 + Claudin-low subtype,Normal,5
+Pam50 + Claudin-low subtype,claudin-low,6
+ER status measured by IHC,Negative,0
+ER status measured by IHC,Positve,1
+ER Status,Negative,0
+ER Status,Positive,1
+HER2 status measured by SNP6,Gain,0
+HER2 status measured by SNP6,Loss,1
+HER2 status measured by SNP6,Neutral,2
+HER2 status measured by SNP6,Undef,3
+HER2 Status,Negative,0
+HER2 Status,Positive,1
+Tumor Other Histologic Subtype,Ductal/NST,0
+Tumor Other Histologic Subtype,Lobular,1
+Tumor Other Histologic Subtype,Medullary,2
+Tumor Other Histologic Subtype,Metaplastic,3
+Tumor Other Histologic Subtype,Mixed,4
+Tumor Other Histologic Subtype,Mucinous,5
+Tumor Other Histologic Subtype,Other,6
+Tumor Other Histologic Subtype,Tubular/ cribriform,7
+Hormone Therapy,No,0
+Hormone Therapy,Yes,1
+Inferred Menopausal State,Post,0
+Inferred Menopausal State,Pre,1
+Integrative Cluster,1,0
+Integrative Cluster,10,1
+Integrative Cluster,2,2
+Integrative Cluster,3,3
+Integrative Cluster,4ER+,4
+Integrative Cluster,4ER-,5
+Integrative Cluster,5,6
+Integrative Cluster,6,7
+Integrative Cluster,7,8
+Integrative Cluster,8,9
+Integrative Cluster,9,10
+Primary Tumor Laterality,Left,0
+Primary Tumor Laterality,Right,1
+Oncotree Code,BRCA,0
+Oncotree Code,BREAST,1
+Oncotree Code,IDC,2
+Oncotree Code,ILC,3
+Oncotree Code,IMMC,4
+Oncotree Code,MBC,5
+Oncotree Code,MDLC,6
+Oncotree Code,PBS,7
+Overall Survival Status,Deceased,0
+Overall Survival Status,Living,1
+PR Status,Negative,0
+PR Status,Positive,1
+Radio Therapy,No,0
+Radio Therapy,Yes,1
+Relapse Free Status,Not Recurred,0
+Relapse Free Status,Recurred,1
+Sex,Female,0
+3-Gene classifier subtype,ER+/HER2- High Prolif,0
+3-Gene classifier subtype,ER+/HER2- Low Prolif,1
+3-Gene classifier subtype,ER-/HER2-,2
+3-Gene classifier subtype,HER2+,3
+Patient's Vital Status,Died of Disease,0
+Patient's Vital Status,Died of Other Causes,1
+Patient's Vital Status,Living,2
