@@ -14,29 +14,18 @@ import random
 import shap
 import csv
 
-# %%
 data = pd.read_csv('./Breast Cancer METABRIC.csv')
 
-# %%
 data.head()
 
-# %%
 print(data.shape)
 
-column_list = data.columns.tolist()
-print(column_list)
-
-
-# %%
 data.dtypes
 
-# %%
 data.isnull().sum()
 
-# %%
 data.set_index('Patient ID', inplace=True)
 
-# %%
 # Encode categorical features
 label_encoders = {}
 for column in data.columns:
@@ -62,19 +51,17 @@ with open('label_mappings.csv', mode='w', newline='') as file:
             writer.writerow([column, original_value, encoded_value])
 
 
-# %%
 # Making sure missing values are not labelled
 data.isnull().sum()
 
-# %%
+# DATA Imputation
 # Handle missing values for both numerical and categorical features using KNN Imputer
 knn_imputer = KNNImputer(n_neighbors=20)
 data_imputed = pd.DataFrame(knn_imputer.fit_transform(data), columns=data.columns)
 
-# %%
 data_imputed.isnull().sum()
 
-# %%
+# Removing unuseful columns
 data_filtered = data_imputed[data_imputed["Patient's Vital Status"] != 1] 
 
 columns_to_exclude = ["Sex", "Patient's Vital Status", "Relapse Free Status", "Relapse Free Status (Months)"]
@@ -82,34 +69,29 @@ data_filtered = data_filtered.drop(columns=columns_to_exclude)
 
 data_filtered.shape
 
-# %%
 data_filtered.dtypes
 
-# %%
-#work here
+# split data into train and test sets
 
 X = data_filtered.drop(['Overall Survival (Months)', 'Overall Survival Status'], axis=1).copy()  
 y = data_filtered[['Overall Survival (Months)', 'Overall Survival Status']].copy() 
-
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, 
                                                     test_size=0.2, 
                                                     random_state=42
                                                     )
 
-# %%
 # Prepare labels for survival analysis (right-censored)
 y_train_lower = y_train['Overall Survival (Months)']
 y_train_upper = y_train.apply(lambda row: row['Overall Survival (Months)'] if row['Overall Survival Status'] == 1 else float('inf'), axis=1)
-y_train_upper.replace(float('inf'), y_train_lower.max() * 1.5, inplace=True)  # Replace inf with a large value
+y_train_upper.replace(float('inf'), y_train_lower.max() * 1.5, inplace=True)  # Replacing inf with a large value
 
 # Prepare test labels for evaluation
 y_test_lower = y_test['Overall Survival (Months)']
 y_test_upper = y_test.apply(lambda row: row['Overall Survival (Months)'] if row['Overall Survival Status'] == 1 else float('inf'), axis=1)
-y_test_upper.replace(float('inf'), y_test_lower.max() * 1.5, inplace=True)  # Replace inf with a large value
+y_test_upper.replace(float('inf'), y_test_lower.max() * 1.5, inplace=True) 
 
 
-# %%
 # Convert the datasets into DMatrix for XGBoost with lower and upper bounds
 dtrain = xgb.DMatrix(X_train)
 dtrain.set_float_info('label_lower_bound', y_train_lower.values)
@@ -123,9 +105,8 @@ dtest.set_float_info('label_upper_bound', y_test_upper.values)
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 
-# %%
 # Parameter optimization
-# Attention: relatively time consuming step
+# Attention: relatively time-consuming step
 # Define the parameter grid for random search
 param_grid = {
     'max_depth': [3, 5, 7, 10],
@@ -139,7 +120,6 @@ param_grid = {
     'num_boost_round': [50, 100, 200]
     
 }
-
 
 # Define number of iterations for random search
 n_iter = 100
@@ -191,46 +171,36 @@ for i in range(n_iter):
 print(f"Best Parameters: {best_params}")
 print(f"Best Mean Squared Error (MSE): {best_score}")
 
-
-# %%
 # Evaluate the best model
 preds = best_model.predict(dtest)
 mse = mean_squared_error(y_test_lower, preds)
 rmse = np.sqrt(mse)
 r2 = r2_score(y_test_lower, preds)
 
-
-
-# %%
 c_index = concordance_index(y_test_lower, preds)
 
-# %%
+# Print model metrics
 print(f"Mean Squared Error (MSE): {mse}")
 print(f"Root Mean Squared Error (RMSE): {rmse}")
 print(f"R^2 Score: {r2}")
 print(f"Concordance Index (C-Index): {c_index}")
 
-# %%
+
 # Visualization: Feature Importance
 plt.figure(figsize=(10, 6))
 xgb.plot_importance(best_model, max_num_features=10, importance_type='weight')
 plt.title('Top 10 Feature Importances')
 plt.show()
 
-# %%
+# Summary plot of SHAP values
 explainer = shap.TreeExplainer(best_model)  # Use TreeExplainer for XGBoost models
 shap_values = explainer.shap_values(X_test)
-
-# Summary plot of SHAP values
 plt.figure(figsize=(10, 6))
 shap.summary_plot(shap_values, X_test)
 
-# %%
 # SHAP Dependence Plot for two specific features
 plt.figure(figsize=(20, 6))
-
 shap.dependence_plot('Radio Therapy', shap_values, X_test, interaction_index="HER2 Status")
-
 shap.dependence_plot('Tumor Stage', shap_values, X_test, interaction_index="Oncotree Code")
 plt.show()
 
