@@ -50,6 +50,10 @@ To understand the contributions of individual features towards survival predicti
 - **Feature Importance**: Plots the top 10 most important features contributing to survival predictions.
 - **SHAP Dependence Plots**: Show how individual features, such as `Tumor Stage` and `Oncotree Code` , influence the survival predictions.
 
+![](https://github.com/RamyGadalla/XGBoost_AcceleratedFailureTime_METABRIC_BC/blob/main/images/features%20importance.png)
+![](https://github.com/RamyGadalla/XGBoost_AcceleratedFailureTime_METABRIC_BC/blob/main/images/SHAP%20explainer.png)
+![](https://github.com/RamyGadalla/XGBoost_AcceleratedFailureTime_METABRIC_BC/blob/main/images/Dependence.png)
+
 ## Installation and Setup
 
 To run this project, make sure you have the following dependencies installed:
